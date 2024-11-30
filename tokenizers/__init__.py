@@ -2,10 +2,10 @@
 
 import pathlib
 
-from .BaseTokenizer import Tokenizer
-from .BPETokenizer import BPETokenizer
-from .CharacterTokenizer import CharacterTokenizer
-from .WordTokenizer import WordTokenizer
+from .base_tokenizer import Tokenizer
+from .bpe_tokenizer import BPETokenizer
+from .character_tokenizer import CharacterTokenizer
+from .word_tokenizer import WordTokenizer
 
 __version__ = pathlib.Path(f"{pathlib.Path(__file__).parent}/VERSION").read_text(
     encoding="utf-8"

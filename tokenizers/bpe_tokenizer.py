@@ -9,7 +9,7 @@ from typing import Optional
 import regex
 from tqdm.auto import trange
 
-from .BaseTokenizer import Tokenizer
+from .base_tokenizer import Tokenizer
 
 BPE_PATTERN = r"""'(?i:[sdmt]|ll|ve|re)|[^\r\n\p{L}\p{N}]?+\p{L}+|\p{N}{1,3}| ?[^\s\p{L}\p{N}]++[\r\n]*|\s*[\r\n]|\s+(?!\S)|\s+"""
 

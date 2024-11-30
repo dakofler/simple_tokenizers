@@ -6,7 +6,7 @@ import re
 from collections import Counter
 from typing import Optional
 
-from .BaseTokenizer import Tokenizer
+from .base_tokenizer import Tokenizer
 
 WORD_PATTERN = r'([,.:;?_!"()\']|--|\s)'
 
@@ -32,11 +32,14 @@ class WordTokenizer(Tokenizer):
         self.ivocab = {t: i for i, t in self.vocab.items()}
 
     def encode(self, text: str) -> list[int]:
-        word_list = re.split(r'([,.:;?_!"()\']|--|\s)', text)
-        word_list = [w for w in word_list if w not in [" ", ""]]
-        return [self.ivocab[s] if s in self.ivocab else 0 for s in word_list]
+        # split the text into words
+        token_list = re.split(WORD_PATTERN, text)
+        token_list = [t for t in token_list if t not in [" ", ""]]
+        token_ids = [self.ivocab[t] if t in self.ivocab else 0 for t in token_list]
+        return token_ids
 
     def decode(self, token_ids: list[int]) -> str:
         text = " ".join([self.vocab[i] for i in token_ids])
-        text = re.sub(r'\s+([,.:?!"()\'])', r"\1", text)
-        return re.sub(r"\n\s", "\n", text)
+        text = re.sub(r'\s+([,.:?!"()\'])', r"\1", text)  # removes unnecessary spaces
+        text = re.sub(r"\n\s", "\n", text)  # removes unnecessary newlines
+        return text

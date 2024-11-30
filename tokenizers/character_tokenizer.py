@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import string
 
-from .BaseTokenizer import Tokenizer
+from .base_tokenizer import Tokenizer
 
 
 class CharacterTokenizer(Tokenizer):
@@ -17,12 +17,12 @@ class CharacterTokenizer(Tokenizer):
         super().__init__(oov_token, vocab, ivocab)
 
     def encode(self, text: str) -> list[int]:
-        character_list = list(text)
-        return [self.ivocab[c] if c in self.ivocab else 0 for c in character_list]
+        token_list = list(text)
+        return [self.ivocab[t] if t in self.ivocab else 0 for t in token_list]
 
     def decode(self, token_ids: list[int]) -> str:
         unk_token = self.vocab[0]
-        character_list = [
+        token_list = [
             self.vocab[i] if i in self.vocab else unk_token for i in token_ids
         ]
-        return "".join(character_list)
+        return "".join(token_list)
