@@ -1,4 +1,4 @@
-graft tokenizers
+graft simple_tokenizers
 include pyproject.toml
 include setup.py
 global-exclude *.py[cod]

@@ -5,18 +5,18 @@ import pathlib
 from setuptools import find_packages, setup
 
 setup(
-    name="tokenizers",
-    version=pathlib.Path("tokenizers/VERSION").read_text(encoding="utf-8"),
-    description="Tokenizers is a collection of tokenization implementations focused on transparency and readability.",
+    name="simple_tokenizers",
+    version=pathlib.Path("simple_tokenizers/VERSION").read_text(encoding="utf-8"),
+    description="Simple tokenizers is a collection of tokenization implementations focused on transparency and readability.",
     long_description=pathlib.Path("README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
-    url="https://github.com/dakofler/Tokenizers/",
+    url="https://github.com/dakofler/simple_tokenizers/",
     author="Daniel Kofler",
     author_email="dkofler@outlook.com",
     license="MIT",
     project_urls={
-        "Source Code": "https://github.com/dakofler/Tokenizers",
-        "Issues": "https://github.com/dakofler/Tokenizers/issues",
+        "Source Code": "https://github.com/dakofler/simple_tokenizers",
+        "Issues": "https://github.com/dakofler/simple_tokenizers/issues",
     },
     classifiers=[
         "Development Status :: 4 - Beta",
