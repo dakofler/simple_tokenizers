@@ -14,7 +14,7 @@ WORD_PATTERN = r'([,.:;?_!"()\']|--|\s)'
 class WordTokenizer(Tokenizer):
     """Uses whole words as tokens."""
 
-    def __init__(self, oov_token: str = "<|unk|>") -> None:
+    def __init__(self, oov_token: str = "[unk]") -> None:
         super().__init__(oov_token)
 
     def fit(self, text: str, vocab_size: Optional[int] = None) -> None:
@@ -29,7 +29,6 @@ class WordTokenizer(Tokenizer):
 
         all_tokens = [self.oov_token] + most_frequent_words
         self.vocab = dict(enumerate(all_tokens))
-        self.ivocab = {t: i for i, t in self.vocab.items()}
 
     def encode(self, text: str) -> list[int]:
         # split the text into words
@@ -39,7 +38,7 @@ class WordTokenizer(Tokenizer):
         return token_ids
 
     def decode(self, token_ids: list[int]) -> str:
-        text = " ".join([self.vocab[i] for i in token_ids])
+        text = " ".join([str(self.vocab[i]) for i in token_ids])
         text = re.sub(r'\s+([,.:?!"()\'])', r"\1", text)  # removes unnecessary spaces
         text = re.sub(r"\n\s", "\n", text)  # removes unnecessary newlines
         return text

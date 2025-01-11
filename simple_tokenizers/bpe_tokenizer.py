@@ -24,19 +24,20 @@ class BPETokenizer(Tokenizer):
     _merges: dict
     _pattern: regex.Pattern
 
-    def __init__(self, oov_token: str = "<|unk|>") -> None:
+    def __init__(self, oov_token: str = "[unk]") -> None:
         super().__init__(oov_token)
         self._merges = {}
         self._pattern = regex.compile(BPE_PATTERN)
 
     def fit(self, text: str, vocab_size: Optional[int] = None) -> None:
-        vocab_size = vocab_size or 256
-        self.vocab = {idx: bytes([idx]) for idx in range(256)}
-
-        if vocab_size <= 256:
+        base_vocab_size = 257
+        vocab_size = vocab_size or base_vocab_size
+        self.vocab = {0: self.oov_token}
+        self.vocab.update({idx + 1: bytes([idx]) for idx in range(256)})
+        if vocab_size <= base_vocab_size:
             return
 
-        n_merges = vocab_size - 256
+        n_merges = vocab_size - base_vocab_size
 
         # split text into chunks according to a regex pattern
         text_chunks = regex.findall(self._pattern, text)
@@ -61,7 +62,7 @@ class BPETokenizer(Tokenizer):
             bigram = counts.most_common(1)[0][0]
 
             # replace occurences of bigram with merge id
-            idx = 256 + i
+            idx = 257 + i
             token_ids = [self._merge(chunk_ids, bigram, idx) for chunk_ids in token_ids]
 
             self._merges[bigram] = idx

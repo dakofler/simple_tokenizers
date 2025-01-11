@@ -13,18 +13,16 @@ class Tokenizer(ABC):
     """Tokenizer base class."""
 
     oov_token: str
-    vocab: dict
-    ivocab: dict
+    vocab: dict[int, str | bytes]
 
-    def __init__(
-        self,
-        oov_token: str = "",
-        vocab: Optional[dict] = None,
-        ivocab: Optional[dict] = None,
-    ) -> None:
+    def __init__(self, oov_token: str, vocab: Optional[dict] = None) -> None:
         self.oov_token = oov_token
         self.vocab = vocab or {}
-        self.ivocab = ivocab or {}
+
+    @property
+    def ivocab(self) -> dict[str | bytes, int]:
+        """Number of unique tokens."""
+        return {token: id for id, token in self.vocab.items()}
 
     @property
     def vocab_size(self) -> int:
@@ -41,6 +39,7 @@ class Tokenizer(ABC):
         vocab_size : int | None, optional
             Number of tokens to be generated. Defaults to ``None``.
         """
+        raise NotImplementedError("Fitting not implemented for this tokenizer!")
 
     @abstractmethod
     def encode(self, text: str) -> list[int]:
@@ -74,9 +73,7 @@ class Tokenizer(ABC):
 
     def get_state_dict(self) -> OrderedDict:
         """Returns the tokenizer state dictionary."""
-        return OrderedDict(
-            oov_token=self.oov_token, vocab=self.vocab, ivocab=self.ivocab
-        )
+        return OrderedDict(vocab=self.vocab)
 
     def load_state_dict(self, state_dict: OrderedDict) -> None:
         """Loads the tokenizer state from a state dict.
@@ -87,4 +84,6 @@ class Tokenizer(ABC):
             State dict containing parameters and buffers.
         """
         for k, v in state_dict.items():
+            if k == "ivocab":
+                continue
             setattr(self, k, v)
