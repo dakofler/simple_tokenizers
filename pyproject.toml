@@ -1,6 +1,31 @@
-[build-system]
-requires = [
-    "setuptools>=62",
-    "wheel"
+[project]
+name = "simple-tokenizers"
+version = "0.1.0"
+description = "LThis is a collection of tokenization implementations focused on transparency and readability."
+readme = "README.md"
+authors = [{ name = "Daniel Kofler", email = "dkofler@outlook.com" }]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Education",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
 ]
-build-backend = "setuptools.build_meta"
+requires-python = ">=3.12"
+dependencies = ["regex>=2023.12.25", "tqdm>=4.66.2"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project.urls]
+Repository = "https://github.com/dakofler/simple_tokenizers"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+ignore = ["F403", "S101"]
+select = ["ARG", "C4", "E", "F", "RUF", "S", "SIM", "TC", "W"]
